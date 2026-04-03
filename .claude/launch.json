@@ -1,0 +1,17 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "basis-gov-devnet",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev:devnet"],
+      "port": 5173
+    },
+    {
+      "name": "basis-gov-mainnet",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "preview"],
+      "port": 4173
+    }
+  ]
+}

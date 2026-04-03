@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="BASIS Gov — On-chain governance and staking for $BASIS token holders. Stake, vote, and shape the ecosystem.">
+  <title>BASIS GOV — DAO Governance</title>
+  <link rel="icon" type="image/x-icon" href="../databasis-web/favicon.ico">
+  <meta http-equiv="Content-Security-Policy" content="
+    default-src 'self';
+    script-src 'self' 'unsafe-inline';
+    script-src-elem 'self' 'unsafe-inline' https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/;
+    style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+    font-src 'self' https://fonts.gstatic.com;
+    connect-src 'self'
+      https://dao.databasis.info
+      https://basis-gov.web.app
+      https://mainnet.helius-rpc.com
+      https://*.helius-rpc.com
+      https://api.devnet.solana.com
+      https://api.testnet.solana.com
+      https://firestore.googleapis.com
+      https://*.firebaseio.com
+      https://*.googleapis.com
+      https://identitytoolkit.googleapis.com
+      https://recaptchaenterprise.googleapis.com;
+    frame-src https://www.google.com/recaptcha/ https://recaptcha.google.com/;
+    upgrade-insecure-requests;
+  ">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/gov.css">
+</head>
+<body>
+
+  <!-- ── Ambient effects ── -->
+  <div class="screen-glow"  aria-hidden="true"></div>
+  <div class="crt-overlay"  aria-hidden="true"></div>
+  <div class="noise"        aria-hidden="true"></div>
+
+  <!-- ── Mobile sidebar backdrop ── -->
+  <div class="sidebar-backdrop" id="sidebarBackdrop" aria-hidden="true"></div>
+
+  <!-- ══════════════════════════════════════════════════════════════════════ -->
+  <!-- SIDEBAR                                                              -->
+  <!-- ══════════════════════════════════════════════════════════════════════ -->
+  <aside class="sidebar" id="sidebar" aria-label="Main navigation">
+
+    <a href="https://databasis.info/" class="sidebar-logo" aria-label="BASIS home">
+      <div>
+        <div class="sl-mark">BASIS</div>
+        <div class="sl-tag">GOV</div>
+      </div>
+    </a>
+
+    <nav class="sidebar-nav" aria-label="Governance navigation">
+
+      <div class="nav-section">
+        <div class="nav-label">GOVERNANCE</div>
+        <button class="nav-item active" data-tab="stake" aria-current="page">
+          <span class="nav-icon" aria-hidden="true">◈</span> STAKE
+        </button>
+        <button class="nav-item" data-tab="proposals">
+          <span class="nav-icon" aria-hidden="true">◆</span> PROPOSALS
+        </button>
+        <button class="nav-item" data-tab="create">
+          <span class="nav-icon" aria-hidden="true">▶</span> CREATE
+        </button>
+        <button class="nav-item" data-tab="activity">
+          <span class="nav-icon" aria-hidden="true">▣</span> MY ACTIVITY
+        </button>
+        <button class="nav-item devnet-only" data-tab="admin" style="display:none">
+          <span class="nav-icon" aria-hidden="true">⚙</span> ADMIN
+        </button>
+        <button class="nav-item devnet-only" data-tab="devtools" style="display:none">
+          <span class="nav-icon" aria-hidden="true">⬡</span> DEV TOOLS
+        </button>
+      </div>
+
+      <div class="nav-divider"></div>
+
+      <div class="nav-section">
+        <div class="nav-label">ECOSYSTEM</div>
+        <a href="https://databasis.info/" class="nav-item ext" rel="noopener noreferrer">
+          <span class="nav-icon" aria-hidden="true">◈</span> TERMINAL
+        </a>
+        <a href="https://nft.databasis.info/" target="_blank" rel="noopener noreferrer" class="nav-item ext">
+          <span class="nav-icon" aria-hidden="true">◆</span> NFT BUILDER
+        </a>
+        <a href="https://chat.databasis.info/" target="_blank" rel="noopener noreferrer" class="nav-item ext">
+          <span class="nav-icon" aria-hidden="true">▶</span> CHAT
+        </a>
+        <a href="https://game.databasis.info/" target="_blank" rel="noopener noreferrer" class="nav-item ext">
+          <span class="nav-icon" aria-hidden="true">▲</span> GAME
+        </a>
+      </div>
+
+    </nav>
+
+    <div class="sidebar-foot" id="sidebarWallet">
+      <div class="net-status">
+        <span class="dot-live" aria-hidden="true"></span>
+        SOLANA MAINNET
+      </div>
+    </div>
+
+  </aside>
+
+  <!-- ══════════════════════════════════════════════════════════════════════ -->
+  <!-- TOPBAR                                                               -->
+  <!-- ══════════════════════════════════════════════════════════════════════ -->
+  <header class="topbar" aria-label="Governance header">
+    <button class="sidebar-toggle" id="sidebarToggle" aria-label="Toggle navigation" aria-expanded="false">≡</button>
+
+    <div class="topbar-brand">
+      <span class="prompt-sym" aria-hidden="true">$</span> BASIS GOV
+    </div>
+
+    <div class="topbar-right">
+      <div class="net-switcher devnet-only" id="netSwitcher" role="group" aria-label="Network selector" style="display:none">
+        <button class="net-btn" data-net="devnet"  type="button">DEVNET</button>
+        <button class="net-btn" data-net="testnet" type="button">TESTNET</button>
+        <button class="net-btn" data-net="mainnet" type="button">MAINNET</button>
+      </div>
+      <div id="walletStatus" class="wallet-chip" aria-live="polite">NOT CONNECTED</div>
+      <button id="walletBtn" class="btn btn-sm" type="button">[ CONNECT WALLET ]</button>
+    </div>
+  </header>
+
+  <!-- ══════════════════════════════════════════════════════════════════════ -->
+  <!-- MAIN CONTENT                                                         -->
+  <!-- ══════════════════════════════════════════════════════════════════════ -->
+  <main class="main-content" id="mainContent">
+
+    <!-- ================================================================== -->
+    <!-- TAB: STAKE                                                         -->
+    <!-- ================================================================== -->
+    <div class="tab-pane active" id="tab-stake" role="tabpanel" aria-label="Staking">
+      <div class="page">
+        <div class="page-header">
+          <div class="page-title"><span class="prompt-sym" aria-hidden="true">$</span> STAKE</div>
+          <div class="page-meta"><span class="mstatus live">LIVE</span></div>
+        </div>
+        <div id="stakeContent" aria-live="polite">
+          <div class="loading-msg">INITIALIZING…</div>
+        </div>
+        <footer class="terminal-footer" aria-label="Session info">
+          <div><span style="color:var(--text-mute)">basis:~$</span> <span id="tf-timestamp"></span></div>
+          <div class="tf-right">
+            <a href="https://x.com/solbasis" target="_blank" rel="noopener noreferrer" class="footer-link">[ X ]</a>
+            <a href="https://t.me/solbasis" target="_blank" rel="noopener noreferrer" class="footer-link">[ TG ]</a>
+          </div>
+        </footer>
+      </div>
+    </div>
+
+    <!-- ================================================================== -->
+    <!-- TAB: PROPOSALS                                                     -->
+    <!-- ================================================================== -->
+    <div class="tab-pane" id="tab-proposals" role="tabpanel" aria-label="Proposals">
+      <div class="page">
+        <div class="page-header">
+          <div class="page-title"><span class="prompt-sym" aria-hidden="true">$</span> PROPOSALS</div>
+          <div class="page-meta">
+            <span class="mstatus live">LIVE</span>
+            <button class="btn btn-sm" data-tab="create" style="display:inline-flex">[ + CREATE ]</button>
+          </div>
+        </div>
+
+        <div class="section-sep"><span>ACTIVE</span></div>
+        <div class="proposals-grid" id="activeProposals" aria-live="polite">
+          <div class="loading-msg">LOADING…</div>
+        </div>
+
+        <div class="section-sep"><span>PAST</span></div>
+        <div class="proposals-grid" id="pastProposals" aria-live="polite">
+          <div class="loading-msg">LOADING…</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================================================================== -->
+    <!-- TAB: PROPOSAL DETAIL                                               -->
+    <!-- ================================================================== -->
+    <div class="tab-pane" id="tab-detail" role="tabpanel" aria-label="Proposal detail">
+      <div class="page">
+        <div id="detailContent" aria-live="polite">
+          <div class="loading-msg">LOADING…</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================================================================== -->
+    <!-- TAB: CREATE PROPOSAL                                               -->
+    <!-- ================================================================== -->
+    <div class="tab-pane" id="tab-create" role="tabpanel" aria-label="Create proposal">
+      <div class="page">
+        <div class="page-header">
+          <div class="page-title"><span class="prompt-sym" aria-hidden="true">$</span> CREATE PROPOSAL</div>
+        </div>
+
+        <div class="panel">
+          <div class="mbar">
+            <div class="mbar-l">
+              <div class="dots" aria-hidden="true"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+              <div class="mlabel">BASIS://NEW-PROPOSAL</div>
+            </div>
+            <div class="mstatus">DRAFT</div>
+          </div>
+
+          <div id="createStakeStatus" style="margin-bottom:14px"></div>
+          <h2>> NEW GOVERNANCE PROPOSAL</h2>
+
+          <div class="form-group">
+            <label class="form-label" for="propTitle">TITLE</label>
+            <input type="text" id="propTitle" class="tool-input" placeholder="Proposal title (max 120 chars)"
+                   maxlength="120" autocomplete="off" spellcheck="false" aria-label="Proposal title">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="propDesc">DESCRIPTION</label>
+            <textarea id="propDesc" class="tool-input" placeholder="Describe the proposal in detail. What are you proposing, why, and what are the expected outcomes?"
+                      maxlength="2000" rows="6" aria-label="Proposal description"></textarea>
+            <div class="char-count" id="descCount">0 / 2000</div>
+          </div>
+
+          <button class="btn btn-primary" id="submitProposalBtn" type="button" style="margin-top:6px">
+            [ CREATE PROPOSAL ]
+          </button>
+
+          <div class="create-note" role="note">
+            <strong>Requirements:</strong> You must have at least <strong>10,000,000 staked $BASIS</strong> (on-chain verified) to create a proposal.
+            Quorum is set at <strong>5% of total staked supply</strong> at the time of creation.
+            Proposals pass by simple majority of YES vs NO (ABSTAIN excluded).
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================================================================== -->
+    <!-- TAB: DEV TOOLS (devnet only)                                      -->
+    <!-- ================================================================== -->
+    <div class="tab-pane devnet-only" id="tab-devtools" role="tabpanel" aria-label="Dev Tools" style="display:none">
+      <div class="page">
+        <div class="page-header">
+          <div class="page-title"><span class="prompt-sym" aria-hidden="true">$</span> DEV TOOLS</div>
+          <div class="page-meta"><span class="mstatus" style="color:var(--accent-warn)">DEVNET</span></div>
+        </div>
+        <div id="devtoolsContent" aria-live="polite">
+          <div class="loading-msg">INITIALIZING…</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================================================================== -->
+    <!-- TAB: ADMIN (devnet only)                                          -->
+    <!-- ================================================================== -->
+    <div class="tab-pane devnet-only" id="tab-admin" role="tabpanel" aria-label="Admin" style="display:none">
+      <div class="page">
+        <div class="page-header">
+          <div class="page-title"><span class="prompt-sym" aria-hidden="true">$</span> ADMIN</div>
+          <div class="page-meta"><span class="mstatus">SETUP</span></div>
+        </div>
+        <div id="adminContent" aria-live="polite">
+          <div class="loading-msg">INITIALIZING…</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================================================================== -->
+    <!-- TAB: MY ACTIVITY                                                   -->
+    <!-- ================================================================== -->
+    <div class="tab-pane" id="tab-activity" role="tabpanel" aria-label="My activity">
+      <div class="page">
+        <div class="page-header">
+          <div class="page-title"><span class="prompt-sym" aria-hidden="true">$</span> MY ACTIVITY</div>
+          <div class="page-meta"><span class="mstatus">WALLET</span></div>
+        </div>
+        <div id="activityContent" aria-live="polite">
+          <div class="empty-state">Connect your wallet to view your activity.</div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ══════════════════════════════════════════════════════════════════════ -->
+  <!-- WALLET CONNECT MODAL                                                 -->
+  <!-- ══════════════════════════════════════════════════════════════════════ -->
+  <div class="modal-overlay" id="walletModal" role="dialog" aria-modal="true" aria-label="Connect wallet">
+    <div class="modal-box">
+      <div class="modal-head">
+        <div class="modal-title">SELECT WALLET</div>
+        <button class="modal-close" id="walletModalClose" aria-label="Close">✕</button>
+      </div>
+      <button class="wallet-option" data-wallet="phantom" type="button">
+        <span class="wallet-icon" aria-hidden="true">👻</span> PHANTOM
+      </button>
+      <button class="wallet-option" data-wallet="solflare" type="button">
+        <span class="wallet-icon" aria-hidden="true">🔥</span> SOLFLARE
+      </button>
+    </div>
+  </div>
+
+  <!-- ── Toast notification ── -->
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <!-- ── App (Vite entry point) ── -->
+  <script type="module" src="src/app.js"></script>
+
+</body>
+</html>

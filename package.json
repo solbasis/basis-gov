@@ -1,0 +1,35 @@
+{
+  "name": "basis-gov",
+  "version": "1.0.0",
+  "description": "BASIS Gov — On-chain DAO governance via SPL Governance",
+  "type": "module",
+  "scripts": {
+    "dev":             "vite",
+    "dev:devnet":      "vite --mode devnet --port 5173",
+    "build":           "vite build",
+    "build:devnet":    "vite build --mode devnet",
+    "build:all":       "vite build && vite build --mode devnet",
+    "preview":         "vite preview",
+    "preview:devnet":  "vite preview --mode devnet --outDir dist-devnet"
+  },
+  "dependencies": {
+    "@metaplex-foundation/mpl-token-metadata": "^2.13.0",
+    "@solana/spl-governance": "0.3.28",
+    "@solana/spl-token": "^0.4.9",
+    "@solana/wallet-adapter-base": "^0.9.23",
+    "@solana/wallet-adapter-phantom": "^0.9.24",
+    "@solana/wallet-adapter-solflare": "^0.6.28",
+    "@solana/web3.js": "^1.95.3",
+    "bn.js": "^5.2.1",
+    "buffer": "^6.0.3",
+    "crypto-browserify": "^3.12.1",
+    "events": "^3.3.0",
+    "firebase": "^10.14.1",
+    "stream-browserify": "^3.0.0",
+    "util": "^0.12.5"
+  },
+  "devDependencies": {
+    "vite": "^5.4.0",
+    "vite-plugin-node-polyfills": "^0.26.0"
+  }
+}

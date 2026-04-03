@@ -1,0 +1,10 @@
+node_modules/
+dist/
+dist-devnet/
+.firebase/
+
+# Local env files — never commit secrets
+.env
+.env.devnet
+.env.local
+.env.*.local
