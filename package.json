@@ -13,7 +13,7 @@
     "preview:devnet":  "vite preview --mode devnet --outDir dist-devnet"
   },
   "dependencies": {
-    "@metaplex-foundation/mpl-token-metadata": "^2.13.0",
+    "@metaplex-foundation/mpl-token-metadata": "^3.4.0",
     "@solana/spl-governance": "0.3.28",
     "@solana/spl-token": "^0.4.9",
     "@solana/wallet-adapter-base": "^0.9.23",
