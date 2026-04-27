@@ -91,6 +91,15 @@ a { color: var(--g); text-decoration: none; }
   backdrop-filter: blur(8px);
 }
 
+/* BASIS Shell active: push fixed sidebar + topbar right by the shell rail
+   width (56px desktop, 48px mobile) so they don't sit under the shell. */
+html.basis-shell-active .sidebar { left: 56px; }
+html.basis-shell-active .topbar  { left: calc(var(--sidebar-w) + 56px); }
+@media (max-width: 600px) {
+  html.basis-shell-active .sidebar { left: 48px; }
+  html.basis-shell-active .topbar  { left: calc(var(--sidebar-w) + 48px); }
+}
+
 .sidebar-logo {
   display:    flex;
   align-items: center;
