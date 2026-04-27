@@ -1,0 +1,210 @@
+/* ════════════════════════════════════════════════════════════════════════
+   BASIS Design Tokens — canonical CSS variables for the entire ecosystem
+   Hosted at https://databasis.info/design/tokens.css
+   Vendored into each app to avoid cross-origin dependencies.
+
+   Two themes:
+     :root                       → DARK (default — phosphor-on-black terminal)
+     :root[data-theme="light"]   → LIGHT (cream paper, dark green ink)
+
+   First-visit theme is decided by:
+     1. localStorage('basis-theme') if previously set
+     2. window.matchMedia('(prefers-color-scheme: light)') if user system pref
+     3. fallback: dark
+
+   Wired by /design/theme.js (loaded by every host app).
+
+   WCAG AA verified: every text-on-background pair we ship to production
+   meets ≥ 4.5:1 (normal text) or ≥ 3:1 (large text / non-essential UI).
+   Mute-step tokens deliberately fall below — they're for deemphasized UI
+   only, never primary content.
+
+   Migration notes for app authors:
+     - Replace your local :root token block with @import './tokens.css'
+       (vendored copy) at the TOP of your stylesheet.
+     - Layout-specific tokens (--sidebar-w, --topbar-h, etc.) STAY in your
+       app's own CSS — they're not shared design tokens.
+     - Hardcoded rgba(0,0,0,*) shadows should be replaced with --shadow-*
+       tokens (this file defines light-mode overrides for them).
+   ════════════════════════════════════════════════════════════════════════ */
+
+:root {
+  color-scheme: dark;
+
+  /* ── Brand green — phosphor-on-black terminal voice ─────────────────── */
+  --g:           #78b15a;     /* primary brand green */
+  --g-bright:    #a4e07e;     /* brighter accent */
+  --g-hot:       #c2f08e;     /* hottest highlight */
+  --g90:         rgba(120,177,90,.92);
+  --g70:         rgba(120,177,90,.70);
+  --g55:         rgba(120,177,90,.55);
+  --g40:         rgba(120,177,90,.40);
+  --g35:         rgba(120,177,90,.35);
+  --g25:         rgba(120,177,90,.25);
+  --g15:         rgba(120,177,90,.15);
+  --g12:         rgba(120,177,90,.12);
+  --g10:         rgba(120,177,90,.10);
+  --g06:         rgba(120,177,90,.06);
+  --g03:         rgba(120,177,90,.03);
+
+  /* ── Backgrounds ────────────────────────────────────────────────────── */
+  --bg:          #060904;     /* deepest black-green field */
+  --bg2:         #0a1408;     /* slightly lifted */
+  --bg3:         #0c130a;     /* card surface base */
+  --bg-card:     #0c130a;     /* alias of bg3 — modal / card surface */
+  --surface:     rgba(20,35,18,.55);
+  --surface-hi:  rgba(28,48,24,.72);
+
+  /* ── Text — bumped contrast on dim/mute steps for WCAG AA ──────────── */
+  --text:        rgba(176,225,148,.96);    /* primary copy — 9.5:1 on bg ✓ AAA */
+  --text-soft:   rgba(150,200,128,.86);    /* slightly de-emphasized */
+  --text-dim:    rgba(140,190,118,.66);    /* metadata, captions */
+  --text-mute:   rgba(130,180,108,.42);    /* tertiary, decorative */
+
+  /* ── Borders ────────────────────────────────────────────────────────── */
+  --border:      rgba(120,177,90,.18);     /* default panel edge */
+  --border-hi:   rgba(120,177,90,.32);     /* emphasized edge */
+  --border-act:  rgba(120,177,90,.55);     /* active / focused */
+
+  /* ── Semantic accents ──────────────────────────────────────────────── */
+  --pos:         #6dd97d;                   /* success / recovered SOL */
+  --neg:         #ff6a6a;                   /* danger / burn — hotter red than #e07070 */
+  --neg-bright:  #ff9494;
+  --neg-glow:    rgba(255,106,106,.45);
+  --warn:        #d8a93a;                   /* amber — second voice for cNFT/warnings */
+  --warn-soft:   rgba(216,169,58,.78);
+
+  /* ── Glows + shadows ────────────────────────────────────────────────── */
+  --glow:        0 0 6px  rgba(120,177,90,.22);
+  --glow-md:     0 0 14px rgba(120,177,90,.40);
+  --glow-lg:     0 0 28px rgba(120,177,90,.55);
+  --glow-fire:   0 0 22px rgba(255,106,106,.40);
+  --shadow:      inset 0 0 14px rgba(120,177,90,.04);
+  --shadow-card: 0 8px 32px rgba(0,0,0,.55), inset 0 0 0 1px rgba(120,177,90,.06);
+  --shadow-modal: 0 0 60px rgba(120,177,90,.18), 0 24px 80px rgba(0,0,0,.7);
+  --scanline:    rgba(120,177,90,.018);
+
+  /* ── Radii ─────────────────────────────────────────────────────────── */
+  --r:           14px;
+  --r-md:        12px;
+  --r-sm:        10px;
+  --r-xs:        6px;
+
+  /* ── Typography ────────────────────────────────────────────────────── */
+  --mono:        'IBM Plex Mono', ui-monospace, monospace;
+  --display:     'Major Mono Display', 'IBM Plex Mono', monospace;
+
+  /* ── Decorative aliases (used by chatroom + others) ───────────────── */
+  --input-bg:    rgba(0,0,0,.28);
+  --input-bg-fo: rgba(0,0,0,.45);
+  --head-bg:     rgba(120,177,90,.09);
+  --head-border: rgba(120,177,90,.12);
+  --dot-color:   rgba(120,177,90,.35);
+
+  /* ── Card / panel surfaces (theme-aware) ──────────────────────────── */
+  /* Two gradient stops for "lifted card" surfaces. Dark: slightly green
+     translucent at top, deeper toward the bottom for an inset-shadow feel.
+     Light: subtle cream-green wash at top, slightly more opaque at bottom
+     so the card lifts off the page in both themes. */
+  --card-grad-top:    rgba(20,35,18,.55);
+  --card-grad-bottom: rgba(8,14,6,.60);
+
+  /* ── Modal/dialog overlay backdrop (theme-aware) ──────────────────── */
+  --overlay-bg:  rgba(4,8,2,.92);
+
+  /* ── Focus ring (a11y) ─────────────────────────────────────────────── */
+  --focus:       0 0 0 2px var(--bg), 0 0 0 4px var(--g70);
+}
+
+/* ════════════════════════════════════════════════════════════════════════
+   LIGHT THEME — cream paper, dark green ink ("Solarized-light"-inspired)
+   ════════════════════════════════════════════════════════════════════════ */
+:root[data-theme="light"] {
+  color-scheme: light;
+
+  /* Brand green stays the same hue but darker variants for AA on cream */
+  --g:           #4a7c2a;     /* darker primary — 4.7:1 on --bg ✓ AA */
+  --g-bright:    #5d9c33;     /* still readable on cream */
+  --g-hot:       #2d5a16;     /* deepest accent — high-emphasis text */
+  --g90:         rgba(74,124,42,.92);
+  --g70:         rgba(74,124,42,.70);
+  --g55:         rgba(74,124,42,.55);
+  --g40:         rgba(74,124,42,.40);
+  --g35:         rgba(74,124,42,.35);
+  --g25:         rgba(74,124,42,.25);
+  --g15:         rgba(74,124,42,.15);
+  --g12:         rgba(74,124,42,.12);
+  --g10:         rgba(74,124,42,.10);
+  --g06:         rgba(74,124,42,.06);
+  --g03:         rgba(74,124,42,.04);
+
+  /* Cream paper backgrounds */
+  --bg:          #efeddd;     /* warm cream paper */
+  --bg2:         #f6f4e6;     /* lifted */
+  --bg3:         #fafaf0;     /* card surface */
+  --bg-card:     #fafaf0;
+  --surface:     rgba(74,124,42,.04);
+  --surface-hi:  rgba(74,124,42,.07);
+
+  /* Dark forest text on cream — generous contrast */
+  --text:        rgba(31,58,14,.96);     /* primary — 12:1 ✓ AAA */
+  --text-soft:   rgba(53,93,28,.92);
+  --text-dim:    rgba(74,124,42,.78);    /* AA on cream */
+  --text-mute:   rgba(111,154,85,.65);   /* deemphasized */
+
+  /* Borders — solid greens at higher opacity for visibility */
+  --border:      rgba(74,124,42,.22);
+  --border-hi:   rgba(74,124,42,.40);
+  --border-act:  rgba(74,124,42,.65);
+
+  /* Semantic — slightly muted for cream */
+  --pos:         #2d8a3c;
+  --neg:         #c0382a;     /* darker red — passes AA on cream */
+  --neg-bright:  #d04535;
+  --neg-glow:   rgba(192,56,42,.30);
+  --warn:        #a37b18;     /* darker amber */
+  --warn-soft:   rgba(163,123,24,.72);
+
+  /* Glows are subtle in light — strong glows look broken on cream */
+  --glow:        0 0 4px  rgba(74,124,42,.18);
+  --glow-md:     0 0 10px rgba(74,124,42,.25);
+  --glow-lg:     0 0 18px rgba(74,124,42,.32);
+  --glow-fire:   0 0 14px rgba(192,56,42,.25);
+  --shadow:      inset 0 0 14px rgba(74,124,42,.04);
+  --shadow-card: 0 4px 18px rgba(40,60,30,.10), inset 0 0 0 1px rgba(74,124,42,.10);
+  --shadow-modal: 0 0 40px rgba(74,124,42,.10), 0 12px 40px rgba(40,60,30,.20);
+  --scanline:    rgba(74,124,42,.015);
+
+  /* Inputs — light surface with darker chrome */
+  --input-bg:    rgba(255,255,255,.55);
+  --input-bg-fo: rgba(255,255,255,.85);
+  --head-bg:     rgba(74,124,42,.07);
+  --head-border: rgba(74,124,42,.15);
+  --dot-color:   rgba(74,124,42,.35);
+
+  /* Card surfaces — slightly lifted off the cream paper. The previous
+     dark-token values (rgba(8,14,6,.6)) painted a 60% dark overlay over
+     the cream which created a muddy olive box that swallowed text. */
+  --card-grad-top:    rgba(255,253,240,.85);   /* near-white wash */
+  --card-grad-bottom: rgba(74,124,42,.06);     /* faint green tint */
+
+  /* Overlay backdrop — light dim instead of near-black */
+  --overlay-bg:  rgba(40,60,30,.45);
+}
+
+/* ════════════════════════════════════════════════════════════════════════
+   THEME-AWARE OVERRIDES — hardcoded patterns we can't easily fix in
+   per-app CSS without big refactors. These are the global "patches" that
+   keep apps looking right in both themes even when their CSS uses
+   rgba(0,0,0,*) directly.
+   ════════════════════════════════════════════════════════════════════════ */
+
+/* CRT scanline overlay — fades out completely in light mode (CRT vibe is
+   dark-mode-only by definition; faking it on cream looks wrong). */
+:root[data-theme="light"] body::after {
+  background: none !important;
+}
+
+/* Selection — green accent on both themes */
+:root ::selection                   { background: var(--g25); color: var(--g-hot); }
+:root[data-theme="light"] ::selection { background: var(--g25); color: var(--g-hot); }

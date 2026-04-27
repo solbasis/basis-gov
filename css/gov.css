@@ -1,52 +1,10 @@
-/* ─── BASIS Gov — Design Tokens ──────────────────────────────────────────────── */
+/* ─── Canonical BASIS design tokens (dark + light) ──────────────────────────── */
+@import './tokens.css';
+
+/* App-specific layout tokens — not shared across apps. */
 :root {
-  --g:            #78b15a;
-  --g-bright:     #a4e07e;
-  --g90:          rgba(120,177,90,.92);
-  --g70:          rgba(120,177,90,.70);
-  --g55:          rgba(120,177,90,.55);
-  --g40:          rgba(120,177,90,.40);
-  --g35:          rgba(120,177,90,.35);
-  --g25:          rgba(120,177,90,.25);
-  --g15:          rgba(120,177,90,.15);
-  --g12:          rgba(120,177,90,.12);
-  --g10:          rgba(120,177,90,.10);
-  --g06:          rgba(120,177,90,.06);
-
-  --bg:           #0a0e08;
-  --bg2:          #060a04;
-  --bg3:          #0a1408;
-  --surface:      rgba(20,35,18,.55);
-
-  --border:       rgba(120,177,90,.18);
-  --border-hi:    rgba(120,177,90,.30);
-  --border-act:   rgba(120,177,90,.50);
-
-  --text:         rgba(120,177,90,.92);
-  --text-dim:     rgba(120,177,90,.60);
-  --text-soft:    rgba(120,177,90,.82);
-  --text-mute:    rgba(120,177,90,.30);
-
-  --pos:          #6dd97d;
-  --neg:          #e07070;
-  --warn:         #c8a832;
-
-  --glow:         0 0 6px  rgba(120,177,90,.20);
-  --glow-lg:      0 0 18px rgba(120,177,90,.55);
-  --shadow:       inset 0 0 14px rgba(120,177,90,.04);
-
-  --r:            14px;
-  --r-sm:         10px;
-  --mono:         'IBM Plex Mono', monospace;
-  --input-bg:     rgba(0,0,0,.28);
-  --scanline:     rgba(120,177,90,.018);
-  --head-bg:      rgba(120,177,90,.09);
-  --head-border:  rgba(120,177,90,.12);
-
   --sidebar-w:    260px;
   --topbar-h:     56px;
-
-  color-scheme: dark;
 }
 
 /* ─── Reset ──────────────────────────────────────────────────────────────────── */
@@ -159,7 +117,7 @@ a { color: var(--g); text-decoration: none; }
 .sidebar-backdrop {
   display: none;
   position: fixed; inset: 0;
-  background: rgba(0,0,0,.5);
+  background: var(--overlay-bg);
   z-index: 190;
 }
 
@@ -241,6 +199,30 @@ a { color: var(--g); text-decoration: none; }
   white-space: nowrap;
 }
 .wallet-chip.connected { color: var(--pos); border-color: rgba(109,217,125,.3); }
+
+/* ─── Theme toggle (light/dark switch in topbar) ──────────────────────────── */
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  background: var(--g06);
+  color: var(--text-soft);
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  font-size: 0.95rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: background .15s, border-color .15s, color .15s, transform .1s;
+}
+.theme-toggle:hover {
+  background: var(--g15);
+  border-color: var(--border-hi);
+  color: var(--g-bright);
+  transform: translateY(-1px);
+}
+.theme-toggle:active { transform: translateY(0); }
 
 /* ─── Main content ────────────────────────────────────────────────────────────── */
 .main-content {

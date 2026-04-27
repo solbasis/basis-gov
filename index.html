@@ -34,6 +34,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600&family=Share+Tech+Mono&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/gov.css">
+
+  <!-- BASIS Theme — sets <html data-theme="dark|light"> before paint -->
+  <script src="theme.js"></script>
 </head>
 <body>
 
@@ -126,9 +129,25 @@
         <button class="net-btn" data-net="testnet" type="button">TESTNET</button>
         <button class="net-btn" data-net="mainnet" type="button">MAINNET</button>
       </div>
+      <button class="theme-toggle" type="button" onclick="window.BasisTheme&&window.BasisTheme.toggle()" aria-label="Toggle light/dark theme" title="Toggle theme" id="themeToggleBtn">☼</button>
       <div id="walletStatus" class="wallet-chip" aria-live="polite">NOT CONNECTED</div>
       <button id="walletBtn" class="btn btn-sm" type="button">[ CONNECT WALLET ]</button>
     </div>
+
+    <script>
+      // Keep the toggle icon in sync with the active theme on page load
+      // and after each toggle (sun = "switch to light", moon = "switch to dark").
+      (function syncToggleIcon() {
+        if (!window.BasisTheme) return;
+        var btn = document.getElementById('themeToggleBtn');
+        if (!btn) return;
+        var update = function () {
+          btn.textContent = window.BasisTheme.get() === 'dark' ? '☼' : '☾';
+        };
+        update();
+        window.BasisTheme.onChange(update);
+      })();
+    </script>
   </header>
 
   <!-- ══════════════════════════════════════════════════════════════════════ -->
